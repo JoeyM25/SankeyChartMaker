@@ -1,5 +1,4 @@
 import tkinter
-import numpy as np
 import pandas as pd
 from tkinter import *
 from tkinter import ttk
