@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #994cc3; font-style: italic;}
+.s1 { color: #403f53;}
+.s2 { color: #994cc3;}
+.s3 { color: #403f53;}
+.s4 { color: #5f7e97;}
+.s5 { color: #c96765;}
+.s6 { color: #aa0982;}
+.s7 { color: #989fb1; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#fbfbfb">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">tkinter</span>
+<span class="s0">import </span><span class="s1">numpy </span><span class="s0">as </span><span class="s1">np</span>
+<span class="s0">import </span><span class="s1">pandas </span><span class="s0">as </span><span class="s1">pd</span>
+<span class="s0">from </span><span class="s1">tkinter </span><span class="s0">import </span><span class="s2">*</span>
+<span class="s0">from </span><span class="s1">tkinter </span><span class="s0">import </span><span class="s1">ttk</span>
+<span class="s0">from </span><span class="s1">tkinter </span><span class="s0">import </span><span class="s1">scrolledtext</span>
+
+
+<span class="s0">def </span><span class="s1">sankey_format</span><span class="s3">(</span><span class="s1">sheet</span><span class="s4">, </span><span class="s1">source</span><span class="s4">, </span><span class="s1">amount</span><span class="s4">, </span><span class="s1">target</span><span class="s3">)</span><span class="s2">:</span>
+    <span class="s1">df </span><span class="s2">= </span><span class="s1">pd</span><span class="s2">.</span><span class="s1">read_excel</span><span class="s3">(</span><span class="s1">sheet</span><span class="s3">)</span>
+
+    <span class="s1">arr </span><span class="s2">= </span><span class="s3">[]</span>
+
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range</span><span class="s3">(</span><span class="s1">len</span><span class="s3">(</span><span class="s1">df</span><span class="s3">))</span><span class="s2">:</span>
+        <span class="s1">skip </span><span class="s2">= </span><span class="s0">False</span>
+        <span class="s1">source1 </span><span class="s2">= </span><span class="s1">df</span><span class="s2">.</span><span class="s1">loc</span><span class="s3">[[</span><span class="s1">i</span><span class="s3">]</span><span class="s4">, </span><span class="s3">[</span><span class="s1">source</span><span class="s3">]]</span><span class="s2">.</span><span class="s1">to_string</span><span class="s3">(</span><span class="s1">index</span><span class="s2">=</span><span class="s0">False</span><span class="s4">, </span><span class="s1">header</span><span class="s2">=</span><span class="s0">False</span><span class="s3">)</span>
+        <span class="s1">amount1 </span><span class="s2">= </span><span class="s1">df</span><span class="s2">.</span><span class="s1">loc</span><span class="s3">[[</span><span class="s1">i</span><span class="s3">]</span><span class="s4">, </span><span class="s3">[</span><span class="s1">amount</span><span class="s3">]]</span><span class="s2">.</span><span class="s1">to_string</span><span class="s3">(</span><span class="s1">index</span><span class="s2">=</span><span class="s0">False</span><span class="s4">, </span><span class="s1">header</span><span class="s2">=</span><span class="s0">False</span><span class="s3">)</span>
+        <span class="s1">target1 </span><span class="s2">= </span><span class="s1">df</span><span class="s2">.</span><span class="s1">loc</span><span class="s3">[[</span><span class="s1">i</span><span class="s3">]</span><span class="s4">, </span><span class="s3">[</span><span class="s1">target</span><span class="s3">]]</span><span class="s2">.</span><span class="s1">to_string</span><span class="s3">(</span><span class="s1">index</span><span class="s2">=</span><span class="s0">False</span><span class="s4">, </span><span class="s1">header</span><span class="s2">=</span><span class="s0">False</span><span class="s3">)</span>
+
+        <span class="s0">if </span><span class="s1">source1 </span><span class="s2">== </span><span class="s5">&quot;NaN&quot; </span><span class="s0">or </span><span class="s1">amount1 </span><span class="s2">== </span><span class="s5">&quot;NaN&quot; </span><span class="s0">or </span><span class="s1">target1 </span><span class="s2">== </span><span class="s5">&quot;NaN&quot;</span><span class="s2">:</span>
+            <span class="s1">skip </span><span class="s2">= </span><span class="s0">True</span>
+
+        <span class="s0">if not </span><span class="s1">skip</span><span class="s2">:</span>
+            <span class="s1">text </span><span class="s2">= </span><span class="s5">f&quot;{</span><span class="s1">source1</span><span class="s5">}[{</span><span class="s1">amount1</span><span class="s5">}]{</span><span class="s1">target1</span><span class="s5">}\n&quot;</span>
+            <span class="s1">arr</span><span class="s2">.</span><span class="s1">append</span><span class="s3">(</span><span class="s1">text</span><span class="s3">)</span>
+
+    <span class="s0">return </span><span class="s5">''</span><span class="s2">.</span><span class="s1">join</span><span class="s3">(</span><span class="s1">arr</span><span class="s3">)</span>
+
+
+<span class="s0">def </span><span class="s1">on_click</span><span class="s3">()</span><span class="s2">:</span>
+    <span class="s1">result </span><span class="s2">= </span><span class="s5">&quot;&quot;</span>
+    <span class="s1">get_source </span><span class="s2">= </span><span class="s1">source</span><span class="s2">.</span><span class="s1">get</span><span class="s3">()</span>
+    <span class="s1">get_amount </span><span class="s2">= </span><span class="s1">amount</span><span class="s2">.</span><span class="s1">get</span><span class="s3">()</span>
+    <span class="s1">get_target </span><span class="s2">= </span><span class="s1">target</span><span class="s2">.</span><span class="s1">get</span><span class="s3">()</span>
+    <span class="s1">get_single_source </span><span class="s2">= </span><span class="s1">single_source</span><span class="s2">.</span><span class="s1">get</span><span class="s3">()</span>
+    <span class="s1">get_single_amount </span><span class="s2">= </span><span class="s1">single_amount</span><span class="s2">.</span><span class="s1">get</span><span class="s3">()</span>
+    <span class="s1">get_single_target </span><span class="s2">= </span><span class="s1">single_target</span><span class="s2">.</span><span class="s1">get</span><span class="s3">()</span>
+
+    <span class="s0">if not </span><span class="s1">get_single_amount </span><span class="s0">or not </span><span class="s1">get_single_target </span><span class="s0">or not </span><span class="s1">get_single_source</span><span class="s2">:</span>
+        <span class="s1">result </span><span class="s2">= </span><span class="s1">sankey_format</span><span class="s3">(</span><span class="s5">&quot;testData.xlsx&quot;</span><span class="s4">, </span><span class="s1">get_source</span><span class="s4">, </span><span class="s1">get_amount</span><span class="s4">, </span><span class="s1">get_target</span><span class="s3">)</span>
+
+    <span class="s0">if not </span><span class="s1">get_target </span><span class="s0">or not </span><span class="s1">get_amount </span><span class="s0">or not </span><span class="s1">get_source</span><span class="s2">:</span>
+        <span class="s1">result </span><span class="s2">= </span><span class="s5">f&quot;{</span><span class="s1">get_single_source</span><span class="s5">}[{</span><span class="s1">get_single_amount</span><span class="s5">}]{</span><span class="s1">get_single_target</span><span class="s5">}\n&quot;</span>
+
+    <span class="s1">result_label</span><span class="s2">.</span><span class="s1">delete</span><span class="s3">(</span><span class="s5">'1.0'</span><span class="s4">, </span><span class="s1">END</span><span class="s3">)</span>
+    <span class="s1">result_label</span><span class="s2">.</span><span class="s1">insert</span><span class="s3">(</span><span class="s1">END</span><span class="s4">, </span><span class="s1">result</span><span class="s3">)</span>
+
+
+<span class="s0">if </span><span class="s1">__name__ </span><span class="s2">== </span><span class="s5">'__main__'</span><span class="s2">:</span>
+    <span class="s1">root </span><span class="s2">= </span><span class="s1">Tk</span><span class="s3">()</span>
+    <span class="s1">root</span><span class="s2">.</span><span class="s1">title</span><span class="s3">(</span><span class="s5">&quot;Sankey&quot;</span><span class="s3">)</span>
+    <span class="s1">frm </span><span class="s2">= </span><span class="s1">ttk</span><span class="s2">.</span><span class="s1">Frame</span><span class="s3">(</span><span class="s1">root</span><span class="s4">, </span><span class="s1">padding</span><span class="s2">=</span><span class="s6">10</span><span class="s3">)</span>
+    <span class="s1">frm</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">()</span>
+
+    <span class="s7"># Source</span>
+    <span class="s1">ttk</span><span class="s2">.</span><span class="s1">Label</span><span class="s3">(</span><span class="s1">frm</span><span class="s4">, </span><span class="s1">text</span><span class="s2">=</span><span class="s5">&quot;Enter your source: &quot;</span><span class="s3">)</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">0</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">0</span><span class="s3">)</span>
+    <span class="s1">source </span><span class="s2">= </span><span class="s1">ttk</span><span class="s2">.</span><span class="s1">Entry</span><span class="s3">(</span><span class="s1">frm</span><span class="s3">)</span>
+    <span class="s1">source</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">1</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">0</span><span class="s3">)</span>
+    <span class="s7"># Amount</span>
+    <span class="s1">ttk</span><span class="s2">.</span><span class="s1">Label</span><span class="s3">(</span><span class="s1">frm</span><span class="s4">, </span><span class="s1">text</span><span class="s2">=</span><span class="s5">&quot;Enter your amount: &quot;</span><span class="s3">)</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">0</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">1</span><span class="s3">)</span>
+    <span class="s1">amount </span><span class="s2">= </span><span class="s1">ttk</span><span class="s2">.</span><span class="s1">Entry</span><span class="s3">(</span><span class="s1">frm</span><span class="s3">)</span>
+    <span class="s1">amount</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">1</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">1</span><span class="s3">)</span>
+    <span class="s7"># Target</span>
+    <span class="s1">ttk</span><span class="s2">.</span><span class="s1">Label</span><span class="s3">(</span><span class="s1">frm</span><span class="s4">, </span><span class="s1">text</span><span class="s2">=</span><span class="s5">&quot;Enter your target: &quot;</span><span class="s3">)</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">0</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">2</span><span class="s3">)</span>
+    <span class="s1">target </span><span class="s2">= </span><span class="s1">ttk</span><span class="s2">.</span><span class="s1">Entry</span><span class="s3">(</span><span class="s1">frm</span><span class="s3">)</span>
+    <span class="s1">target</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">1</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">2</span><span class="s3">)</span>
+    <span class="s7"># Single Source</span>
+    <span class="s1">ttk</span><span class="s2">.</span><span class="s1">Label</span><span class="s3">(</span><span class="s1">frm</span><span class="s4">, </span><span class="s1">text</span><span class="s2">=</span><span class="s5">&quot;Enter a single source(if applicable): &quot;</span><span class="s3">)</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">2</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">0</span><span class="s3">)</span>
+    <span class="s1">single_source </span><span class="s2">= </span><span class="s1">ttk</span><span class="s2">.</span><span class="s1">Entry</span><span class="s3">(</span><span class="s1">frm</span><span class="s3">)</span>
+    <span class="s1">single_source</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">3</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">0</span><span class="s3">)</span>
+    <span class="s7"># Single Amount</span>
+    <span class="s1">ttk</span><span class="s2">.</span><span class="s1">Label</span><span class="s3">(</span><span class="s1">frm</span><span class="s4">, </span><span class="s1">text</span><span class="s2">=</span><span class="s5">&quot;Enter a single amount(if applicable): &quot;</span><span class="s3">)</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">2</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">1</span><span class="s3">)</span>
+    <span class="s1">single_amount </span><span class="s2">= </span><span class="s1">ttk</span><span class="s2">.</span><span class="s1">Entry</span><span class="s3">(</span><span class="s1">frm</span><span class="s3">)</span>
+    <span class="s1">single_amount</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">3</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">1</span><span class="s3">)</span>
+    <span class="s7"># Single Target</span>
+    <span class="s1">ttk</span><span class="s2">.</span><span class="s1">Label</span><span class="s3">(</span><span class="s1">frm</span><span class="s4">, </span><span class="s1">text</span><span class="s2">=</span><span class="s5">&quot;Enter a single target(if applicable): &quot;</span><span class="s3">)</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">2</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">2</span><span class="s3">)</span>
+    <span class="s1">single_target </span><span class="s2">= </span><span class="s1">ttk</span><span class="s2">.</span><span class="s1">Entry</span><span class="s3">(</span><span class="s1">frm</span><span class="s3">)</span>
+    <span class="s1">single_target</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">3</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">2</span><span class="s3">)</span>
+
+    <span class="s7"># Submit Button</span>
+    <span class="s1">button </span><span class="s2">= </span><span class="s1">ttk</span><span class="s2">.</span><span class="s1">Button</span><span class="s3">(</span><span class="s1">frm</span><span class="s4">, </span><span class="s1">text</span><span class="s2">=</span><span class="s5">&quot;Submit&quot;</span><span class="s4">, </span><span class="s1">command</span><span class="s2">=</span><span class="s1">on_click</span><span class="s3">)</span>
+    <span class="s1">button</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">0</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">3</span><span class="s3">)</span>
+    <span class="s7"># Results</span>
+    <span class="s1">result_label </span><span class="s2">= </span><span class="s1">scrolledtext</span><span class="s2">.</span><span class="s1">ScrolledText</span><span class="s3">(</span><span class="s1">root</span><span class="s4">, </span><span class="s1">wrap</span><span class="s2">=</span><span class="s1">WORD</span><span class="s4">, </span><span class="s1">width</span><span class="s2">=</span><span class="s6">50</span><span class="s4">, </span><span class="s1">height</span><span class="s2">=</span><span class="s6">20</span><span class="s3">)</span>
+    <span class="s1">result_label</span><span class="s2">.</span><span class="s1">grid</span><span class="s3">(</span><span class="s1">column</span><span class="s2">=</span><span class="s6">0</span><span class="s4">, </span><span class="s1">row</span><span class="s2">=</span><span class="s6">4</span><span class="s3">)</span>
+
+    <span class="s1">root</span><span class="s2">.</span><span class="s1">mainloop</span><span class="s3">()</span>
+</pre>
+</body>
+</html>
