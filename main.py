@@ -15,11 +15,12 @@ result = ("Welcome to the Sankey Chart Maker.\n\n"
           "By choosing the single sources you will be able to create a custom result.\n"
           "Select an excel file to begin, or start creating custom results.")
 
-"""def setup_logging():
+
+def setup_logging():
     log_file = "output.log"
     sys.stdout = open(log_file, 'w')
     sys.stderr = open(log_file, 'w')
-    print("Logging to", log_file)"""
+    print("Logging to", log_file)
 
 
 def sankey_format(sheet, source, amount, target):
@@ -140,9 +141,9 @@ def is_num(num):
 
 
 if __name__ == '__main__':
-    # setup_logging()
+    setup_logging()
     root = Tk()
-    root.title("Sankey")
+    root.title("Sankey Formatter")
     frm = ttk.Frame(root, padding=10)
     frm.grid()
 
